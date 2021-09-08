@@ -22,9 +22,16 @@ class TicketControl extends React.Component {
   }
 
   handleClick = () => {
-    this.setState(prevState => ({
-      formVisibleOnPage: !prevState.formVisibleOnPage
-    }));
+    if (this.state.selectedTicket != null) {
+      this.setState({
+        formVisibleOnPage: false,
+        selectedTicket: null
+      });
+    } else {
+      this.setState(prevState => ({
+        formVisibleOnPage: !prevState.formVisibleOnPage,
+      }));
+    }
   }
 
   handleAddingNewTicketToList = (newTicket) => {
@@ -39,7 +46,6 @@ class TicketControl extends React.Component {
     if (this.state.selectedTicket != null) {
       currentlyVisibleState = <TicketDetail ticket={this.state.selectedTicket}/>
       buttonText = "Return to Ticket List";
-      // will eventually have TicketDetail have the passed value of selectedTicket as property
     } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />;
       buttonText = "Return to Ticket List"; 
