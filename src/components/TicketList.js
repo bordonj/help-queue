@@ -7,11 +7,14 @@ function TicketList(props){ // add props as parameters
   return (
     <React.Fragment>
       <hr/>
-        {props.ticketList.map((ticket, index) => // loop through the list passed down from TicketControl
-          <Ticket names={ticket.names}
+        {props.ticketList.map((ticket) => // loop through the list passed down from TicketControl
+          <Ticket 
+            whenTicketClicked = {props.onTicketSelection}
+            names={ticket.names}
             location={ticket.location}
             issue={ticket.issue}
-            key={index}/>
+            id={ticket.id}
+            key={ticket.id}/>
         )}
     </React.Fragment>
   );
@@ -19,7 +22,8 @@ function TicketList(props){ // add props as parameters
 
 // add propTypes for ticketList
 TicketList.propTypes = {
-  ticketList: PropTypes.array
+  ticketList: PropTypes.array,
+  onTicketSelection: PropTypes.func
 };
 
 export default TicketList;
