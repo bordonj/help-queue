@@ -7,7 +7,8 @@ class TicketControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      formVisibleOnPage: false
+      formVisibleOnPage: false,
+      masterTicketList: [] // new code
     };
   }
 
@@ -19,13 +20,13 @@ class TicketControl extends React.Component {
 
   render(){
     let currentlyVisibleState = null;
-    let buttonText = null; // new code
+    let buttonText = null; 
     if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <NewTicketForm />;
-      buttonText = "Return to Ticket List"; // new code
+      buttonText = "Return to Ticket List"; 
     } else {
-      currentlyVisibleState = <TicketList />;
-      buttonText = "Add Ticket"; // new code
+      currentlyVisibleState = <TicketList ticketList={this.state.masterTicketList} />; // new code
+      buttonText = "Add Ticket"; 
     }
     return (
       <React.Fragment>
