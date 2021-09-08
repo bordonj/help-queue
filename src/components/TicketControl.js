@@ -1,6 +1,7 @@
 import React from 'react';
 import NewTicketForm from './NewTicketForm';
 import TicketList from './TicketList';
+import TicketDetail from './TicketDetail';
 
 class TicketControl extends React.Component {
 
@@ -12,8 +13,8 @@ class TicketControl extends React.Component {
       selectedTicket: null
     };
   }
-  
-  handleChangingSelectedTicker = (id) => {
+
+  handleChangingSelectedTicket = (id) => {
     const selectedTicket = this.state.masterTicketList.filter(ticket => ticket.id === id)[0];
     this.setState({
       selectedTicket: selectedTicket
@@ -34,11 +35,16 @@ class TicketControl extends React.Component {
   render(){
     let currentlyVisibleState = null;
     let buttonText = null; 
-    if (this.state.formVisibleOnPage) {
+
+    if (this.state.selectedTicket != null) {
+      currentlyVisibleState = <TicketDetail ticket={this.state.selectedTicket}/>
+      buttonText = "Return to Ticket List";
+      // will eventually have TicketDetail have the passed value of selectedTicket as property
+    } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />;
       buttonText = "Return to Ticket List"; 
     } else {
-      currentlyVisibleState = <TicketList ticketList={this.state.masterTicketList} />; // new code
+      currentlyVisibleState = <TicketList ticketList={this.state.masterTicketList} onTicketSelection={this.handleChangingSelectedTicket}/>; // new code
       buttonText = "Add Ticket"; 
     }
     return (
