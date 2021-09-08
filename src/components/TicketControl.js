@@ -8,8 +8,16 @@ class TicketControl extends React.Component {
     super(props);
     this.state = {
       formVisibleOnPage: false,
-      masterTicketList: [] // new code
+      masterTicketList: [],
+      selectedTicket: null
     };
+  }
+  
+  handleChangingSelectedTicker = (id) => {
+    const selectedTicket = this.state.masterTicketList.filter(ticket => ticket.id === id)[0];
+    this.setState({
+      selectedTicket: selectedTicket
+    });
   }
 
   handleClick = () => {
