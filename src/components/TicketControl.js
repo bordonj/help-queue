@@ -21,6 +21,17 @@ class TicketControl extends React.Component {
     this.setState({editing: true});
   }
 
+  handleEditingTicketInList = (ticketToEdit) => {
+    const editedMasterTicketList = this.state.masterTicketList
+      .filter(ticket => ticket.id !== this.state.selectedTicket.id) // filter previous version of ticket out
+      .concat(ticketToEdit); // add the edited version
+    this.setState({
+      masterTicketList: editedMasterTicketList, // set masterTicketList to be the one with updated ticket
+      editing: false, // update editing to be false 
+      selectedTicket: null // update to null
+    });
+  }
+
   handleChangingSelectedTicket = (id) => {
     const selectedTicket = this.state.masterTicketList.filter(ticket => ticket.id === id)[0];
     this.setState({
@@ -60,7 +71,7 @@ class TicketControl extends React.Component {
 
     
     if (this.state.editing) {
-      currentlyVisibleState = <EditTicketForm ticket={this.state.selectedTicket}/>
+      currentlyVisibleState = <EditTicketForm ticket={this.state.selectedTicket} onEditTicket={this.handleEditingTicketInList}/>
       buttonText = "Return to Ticket List";
     } else if (this.state.selectedTicket != null) {
       currentlyVisibleState = 
