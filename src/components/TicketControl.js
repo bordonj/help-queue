@@ -10,8 +10,14 @@ class TicketControl extends React.Component {
     this.state = {
       formVisibleOnPage: false,
       masterTicketList: [],
-      selectedTicket: null
+      selectedTicket: null,
+      editing: false // add new state slice
     };
+  }
+
+  handleEditClick = () => { // method for showing edit form, needs to go here bc determines local state for which component should show
+    console.log("handleEditClick reached!");
+    this.setState({editing: true});
   }
 
   handleChangingSelectedTicket = (id) => {
@@ -52,19 +58,22 @@ class TicketControl extends React.Component {
     let buttonText = null; 
 
     if (this.state.selectedTicket != null) {
-      currentlyVisibleState = <TicketDetail ticket={this.state.selectedTicket} onClickingDelete={this.handleDeletingTicket}/>
+      currentlyVisibleState = 
+      <TicketDetail 
+        ticket={this.state.selectedTicket} onClickingDelete={this.handleDeletingTicket}
+        onClickingEdit = {this.handleEditClick}/> // pass handleEditClick as Prop to TicketDetail
       buttonText = "Return to Ticket List";
     } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />;
       buttonText = "Return to Ticket List"; 
     } else {
-      currentlyVisibleState = <TicketList ticketList={this.state.masterTicketList} onTicketSelection={this.handleChangingSelectedTicket}/>; // new code
+      currentlyVisibleState = <TicketList ticketList={this.state.masterTicketList} onTicketSelection={this.handleChangingSelectedTicket}/>; 
       buttonText = "Add Ticket"; 
     }
     return (
       <React.Fragment>
         {currentlyVisibleState}
-        <button onClick={this.handleClick}>{buttonText}</button> { /* new code */ }
+        <button onClick={this.handleClick}>{buttonText}</button> 
       </React.Fragment>
     );
   }
